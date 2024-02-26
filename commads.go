@@ -9,7 +9,6 @@ import (
 
 var localtions LocationAreas
 var exploredLocation ExploredLocation
-
 var caughtPokemonMap map[string]Pokemon = make(map[string]Pokemon)
 
 func commandHelp(args []string) error {
@@ -78,6 +77,14 @@ func inspect(args []string) error {
 	return nil
 }
 
+func pokedex(args []string) error {
+	fmt.Println("Your Pokedex:")
+	for k := range caughtPokemonMap {
+		fmt.Printf(" -%v\n", k)
+	}
+	return nil
+}
+
 func printPokemonDetails(pokemon *Pokemon) {
 	fmt.Printf("Name: %v\n", pokemon.Name)
 	fmt.Printf("Height: %v\n", pokemon.Height)
@@ -129,6 +136,11 @@ func getCommandMap() map[string]CliCommand {
 			name:        "inspect",
 			description: "print extended pokemon details",
 			callback:    inspect,
+		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "print names of caught pokemons",
+			callback:    pokedex,
 		},
 	}
 }
