@@ -28,7 +28,7 @@ func assignLocationAreas(locations *LocationAreas, direction string) error {
 		}
 	}
 
-	body, err := fetchLocation(url)
+	body, err := fetchFromApi(url)
 	if err != nil {
 		return err
 	}
@@ -41,7 +41,7 @@ func assignLocationAreas(locations *LocationAreas, direction string) error {
 
 func assignExploredLocation(exploredLocation *ExploredLocation, loactionName string) error {
 	url := "https://pokeapi.co/api/v2/location-area/" + loactionName
-	body, err := fetchLocation(url)
+	body, err := fetchFromApi(url)
 	if err != nil {
 		return err
 	}
@@ -52,28 +52,39 @@ func assignExploredLocation(exploredLocation *ExploredLocation, loactionName str
 	return nil
 }
 
-func fetchLocation(url string) ([]byte, error) {
-	if v, ok := c.Get(url); ok {
-		return v, nil
-	} else {
-		return fetchFromApi(url)
+func FetchPokemon(pokemonName string) (Pokemon, error) {
+	url := "https://pokeapi.co/api/v2/pokemon/" + pokemonName
+	pokemon := Pokemon{}
+	body, err := fetchFromApi(url)
+	if err != nil {
+		return Pokemon{}, err
 	}
+	err = json.Unmarshal(body, &pokemon)
+	if err != nil {
+		return Pokemon{}, err
+	}
+	return pokemon, nil
 }
 
 func fetchFromApi(url string) ([]byte, error) {
-	res, err := http.Get(url)
+	if v, ok := c.Get(url); ok {
+		return v, nil
+	} else {
+		res, err := http.Get(url)
 
-	if err != nil {
-		return nil, errors.New("FAILED TO MAKE API CALL")
+		if err != nil {
+			return nil, errors.New("FAILED TO MAKE API CALL")
+		}
+		body, err := io.ReadAll(res.Body)
+		res.Body.Close()
+		if res.StatusCode > 299 {
+			return nil, errors.New("Response failed with status code: " + string(rune(res.StatusCode)) + " and\nbody:" + string(body) + "\n")
+		}
+		if err != nil {
+			return nil, errors.New("FAILED TO MAKE API CALL")
+		}
+		go c.Add(url, body)
+		return body, err
 	}
-	body, err := io.ReadAll(res.Body)
-	res.Body.Close()
-	if res.StatusCode > 299 {
-		return nil, errors.New("Response failed with status code: " + string(rune(res.StatusCode)) + " and\nbody:" + string(body) + "\n")
-	}
-	if err != nil {
-		return nil, errors.New("FAILED TO MAKE API CALL")
-	}
-	go c.Add(url, body)
-	return body, err
+
 }
