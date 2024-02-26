@@ -10,7 +10,14 @@ import (
 	"github.com/Mememolvi/pokedexcli/internal/pokecache"
 )
 
-var c pokecache.Cache = pokecache.NewCache(time.Second * 10)
+var getDuration = func() time.Duration {
+	var duration, err = time.ParseDuration(AC.CacheExpIntervalSeconds)
+	if err == nil {
+		return duration
+	}
+	return time.Second * 10 // default
+}
+var c pokecache.Cache = pokecache.NewCache(getDuration())
 
 func assignLocationAreas(locations *LocationAreas, direction string) error {
 	if direction == "previous" && locations.Previous == nil {
@@ -19,7 +26,7 @@ func assignLocationAreas(locations *LocationAreas, direction string) error {
 	var url string
 	if locations.Next == "" {
 		// first fetch populate url
-		url = "https://pokeapi.co/api/v2/location-area/?offset=0&limit=5"
+		url = AC.LocationAreaURL + AC.PageSize
 	} else {
 		if direction == "next" {
 			url = localtions.Next
@@ -40,7 +47,7 @@ func assignLocationAreas(locations *LocationAreas, direction string) error {
 }
 
 func assignExploredLocation(exploredLocation *ExploredLocation, loactionName string) error {
-	url := "https://pokeapi.co/api/v2/location-area/" + loactionName
+	url := AC.ExploreLocationURL + loactionName
 	body, err := fetchFromApi(url)
 	if err != nil {
 		return err
@@ -53,7 +60,7 @@ func assignExploredLocation(exploredLocation *ExploredLocation, loactionName str
 }
 
 func FetchPokemon(pokemonName string) (Pokemon, error) {
-	url := "https://pokeapi.co/api/v2/pokemon/" + pokemonName
+	url := AC.PokemonDetailsURL + pokemonName
 	pokemon := Pokemon{}
 	body, err := fetchFromApi(url)
 	if err != nil {

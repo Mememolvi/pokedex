@@ -2,12 +2,32 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
 )
 
+var AC AppConfig
+
+func LoadConfig() error {
+	file, err := os.Open("AppConfig")
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	decoder := json.NewDecoder(file)
+	err = decoder.Decode(&AC)
+	return err
+}
+
 func main() {
+	err := LoadConfig()
+	if err != nil {
+		fmt.Println("Failed to load config ! Exiting Program. ", err)
+		return
+	}
 	commandMap := getCommandMap()
 	for {
 		reader := bufio.NewReader(os.Stdin)

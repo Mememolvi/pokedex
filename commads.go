@@ -11,7 +11,7 @@ var localtions LocationAreas
 var exploredLocation ExploredLocation
 var caughtPokemonMap map[string]Pokemon = make(map[string]Pokemon)
 
-func commandHelp(args []string) error {
+func help(args []string) error {
 	commandMap := getCommandMap()
 	if len(commandMap) == 0 {
 		return errors.New("No commads available!")
@@ -23,7 +23,7 @@ func commandHelp(args []string) error {
 	return nil
 }
 
-func commandExit(args []string) error {
+func exit(args []string) error {
 	os.Exit(0)
 	return nil
 }
@@ -37,7 +37,7 @@ func commandMap(args []string) error {
 	return nil
 }
 
-func commandMapb(args []string) error {
+func mapb(args []string) error {
 	err := assignLocationAreas(&localtions, "previous")
 	if err != nil {
 		return err
@@ -52,7 +52,9 @@ func explore(args []string) error {
 	if err != nil {
 		return err
 	}
-	printExploredLocation()
+	for _, value := range exploredLocation.PokemonEncounters {
+		fmt.Println(value.Pokemon.Name)
+	}
 	return nil
 }
 
@@ -85,32 +87,17 @@ func pokedex(args []string) error {
 	return nil
 }
 
-func printPokemonDetails(pokemon *Pokemon) {
-	fmt.Printf("Name: %v\n", pokemon.Name)
-	fmt.Printf("Height: %v\n", pokemon.Height)
-	fmt.Printf("Weight: %v\n", pokemon.Weight)
-	fmt.Printf("Stats:\n")
-	for _, v := range pokemon.Stats {
-		fmt.Printf("-%v: %v\n", v.Stat.Name, v.BaseStat)
-	}
-	fmt.Printf("Types:\n")
-	for _, v := range pokemon.Types {
-		fmt.Printf("-%v\n", v.Type.Name)
-	}
-
-}
-
 func getCommandMap() map[string]CliCommand {
 	return map[string]CliCommand{
 		"help": {
 			name:        "help",
 			description: "Displays a help message",
-			callback:    commandHelp,
+			callback:    help,
 		},
 		"exit": {
 			name:        "exit",
 			description: "Exit the Pokedex",
-			callback:    commandExit,
+			callback:    exit,
 		},
 		"map": {
 			name:        "map",
@@ -120,7 +107,7 @@ func getCommandMap() map[string]CliCommand {
 		"mapb": {
 			name:        "mapb",
 			description: "Displays previous 50 localtions",
-			callback:    commandMapb,
+			callback:    mapb,
 		},
 		"explore": {
 			name:        "explore",
@@ -151,13 +138,8 @@ func printLocations() {
 	}
 }
 
-func printExploredLocation() {
-	for _, value := range exploredLocation.PokemonEncounters {
-		fmt.Println(value.Pokemon.Name)
-	}
-}
-
 func attemptCatch(pokemon Pokemon) {
+	// ignore if already caught ? or increase count
 	fmt.Println("Throwing a Pokeball at pikachu...")
 	exp := pokemon.BaseExperience
 	rand := rand.Intn(exp)
@@ -169,4 +151,19 @@ func attemptCatch(pokemon Pokemon) {
 		//excaped
 		fmt.Println("pikachu escaped!")
 	}
+}
+
+func printPokemonDetails(pokemon *Pokemon) {
+	fmt.Printf("Name: %v\n", pokemon.Name)
+	fmt.Printf("Height: %v\n", pokemon.Height)
+	fmt.Printf("Weight: %v\n", pokemon.Weight)
+	fmt.Printf("Stats:\n")
+	for _, v := range pokemon.Stats {
+		fmt.Printf("-%v: %v\n", v.Stat.Name, v.BaseStat)
+	}
+	fmt.Printf("Types:\n")
+	for _, v := range pokemon.Types {
+		fmt.Printf("-%v\n", v.Type.Name)
+	}
+
 }

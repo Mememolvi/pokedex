@@ -1,0 +1,7 @@
+{
+    "PageSize": "10",
+    "CacheExpIntervalSeconds": "10s",
+    "LocationAreaURL": "https://pokeapi.co/api/v2/location-area/?offset=0&limit=",
+    "ExploreLocationURL": "https://pokeapi.co/api/v2/location-area/",
+    "PokemonDetailsURL": "https://pokeapi.co/api/v2/pokemon/"
+}

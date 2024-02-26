@@ -1,5 +1,13 @@
 package main
 
+type AppConfig struct {
+	PageSize                string `json:"PageSize"`
+	CacheExpIntervalSeconds string `json:"CacheExpIntervalSeconds"`
+	LocationAreaURL         string `json:"LocationAreaURL"`
+	ExploreLocationURL      string `json:"ExploreLocationURL"`
+	PokemonDetailsURL       string `json:"PokemonDetailsURL"`
+}
+
 type CliCommand struct {
 	name        string
 	description string
