@@ -26,7 +26,7 @@ Commads Map :
 Default Configs :
 
 {
-    "PageSize": "10",
+    "PageSize": "10",\n
     "CacheExpIntervalSeconds": "10s",
     "LocationAreaURL": "https://pokeapi.co/api/v2/location-area/?offset=0&limit=",
     "ExploreLocationURL": "https://pokeapi.co/api/v2/location-area/",
