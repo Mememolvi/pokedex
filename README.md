@@ -10,9 +10,9 @@ Commads Map :
 
 "exit": {description: "Exit the Pokedex"}
 
-"map": {description: "Displays next 50 locations"}
+"map": {description: "Displays next n locations"}
 
-"mapb": {description: "Displays previous 50 localtions"}
+"mapb": {description: "Displays previous n localtions"}
 
 "explore": {description: "explores choosen location"}
 
@@ -21,3 +21,14 @@ Commads Map :
 "inspect": {description: "print extended pokemon details"}
 
 "pokedex": {description: "print names of caught pokemons"}
+
+
+Default Configs :
+
+{
+    "PageSize": "10",
+    "CacheExpIntervalSeconds": "10s",
+    "LocationAreaURL": "https://pokeapi.co/api/v2/location-area/?offset=0&limit=",
+    "ExploreLocationURL": "https://pokeapi.co/api/v2/location-area/",
+    "PokemonDetailsURL": "https://pokeapi.co/api/v2/pokemon/"
+}
