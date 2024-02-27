@@ -142,8 +142,12 @@ func attemptCatch(pokemon Pokemon) {
 	// ignore if already caught ? or increase count
 	fmt.Println("Throwing a Pokeball at pikachu...")
 	exp := pokemon.BaseExperience
-	rand := rand.Intn(exp)
-	if rand < 100 {
+	exp = exp % 100 // normalize
+
+	catchProb := 100 - exp
+	rand := rand.Intn(100)
+
+	if catchProb < rand {
 		//caught
 		caughtPokemonMap[pokemon.Name] = pokemon
 		fmt.Println("pikachu was caught!")
