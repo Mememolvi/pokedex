@@ -1,34 +1,17 @@
-# pokedex
+Pokedex
 
-go cli pokedex guided project with boot.dev
+Go CLI Pokedex guided project with boot.dev.
 
-Please Prove the Application Configuration before building in AppConfig file
+Before Building: Please configure the application in the AppConfig file.
+Commands Map:
 
-Commads Map :
+    help: Displays a help message
+    exit: Exit the Pokedex
+    map: Displays next n locations
+    mapb: Displays previous n locations
+    explore: Explores chosen location
+    catch: Attempt to catch chosen Pokemon
+    inspect: Print extended Pokemon details
+    pokedex: Print names of caught Pokemons
 
-"help": {description: "Displays a help message"}
-
-"exit": {description: "Exit the Pokedex"}
-
-"map": {description: "Displays next n locations"}
-
-"mapb": {description: "Displays previous n localtions"}
-
-"explore": {description: "explores choosen location"}
-
-"catch": {description: "attempt to catch choosen pokemon"}
-
-"inspect": {description: "print extended pokemon details"}
-
-"pokedex": {description: "print names of caught pokemons"}
-
-
-Default Configs :
-
-{
-    "PageSize": "10",\n
-    "CacheExpIntervalSeconds": "10s",
-    "LocationAreaURL": "https://pokeapi.co/api/v2/location-area/?offset=0&limit=",
-    "ExploreLocationURL": "https://pokeapi.co/api/v2/location-area/",
-    "PokemonDetailsURL": "https://pokeapi.co/api/v2/pokemon/"
-}
+Default Configs:
